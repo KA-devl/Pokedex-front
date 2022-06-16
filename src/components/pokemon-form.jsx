@@ -1,8 +1,18 @@
 import formatType from '../helpers/format-type';
+import { useState } from 'react';
   
 
   
 function PokemonForm ({pokemon}) {
+  const [form, setForm] = useState({
+    name: {value: pokemon.name, isValid : true},
+    hp: {value: pokemon.hp, isValid : true},
+    cp: {value: pokemon.cp, isValid : true},
+    types: {value: pokemon.types, isValid : true}
+
+  
+  
+  });
   
   const types = [
     'Plante', 'Feu', 'Eau', 'Insecte', 'Normal', 'Electrik',
