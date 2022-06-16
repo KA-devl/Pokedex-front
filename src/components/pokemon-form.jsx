@@ -4,6 +4,7 @@ import { useState } from 'react';
 
   
 function PokemonForm ({pokemon}) {
+  //Avec cela, on peut set les valeurs pour des valeurs initiale pour chaque form de pokemon
   const [form, setForm] = useState({
     name: {value: pokemon.name, isValid : true},
     hp: {value: pokemon.hp, isValid : true},
@@ -18,6 +19,10 @@ function PokemonForm ({pokemon}) {
     'Plante', 'Feu', 'Eau', 'Insecte', 'Normal', 'Electrik',
     'Poison', 'Fée', 'Vol', 'Combat', 'Psy'
   ];
+
+  const hasType = (type) =>{
+    return form.types.value.includes(type);
+  }
    
   return (
     <form>
@@ -32,17 +37,17 @@ function PokemonForm ({pokemon}) {
                 {/* Pokemon name */}
                 <div className="form-group">
                   <label htmlFor="name">Nom</label>
-                  <input id="name" type="text" className="form-control"></input>
+                  <input id="name" type="text" className="form-control" value={form.name.value}></input>
                 </div>
                 {/* Pokemon hp */}
                 <div className="form-group">
                   <label htmlFor="hp">Point de vie</label>
-                  <input id="hp" type="number" className="form-control"></input>
+                  <input id="hp" type="number" className="form-control" value={form.hp.value}></input>
                 </div>
                 {/* Pokemon cp */}
                 <div className="form-group">
                   <label htmlFor="cp">Dégâts</label>
-                  <input id="cp" type="number" className="form-control"></input>
+                  <input id="cp" type="number" className="form-control" value={form.cp.value}></input>
                 </div>
                 {/* Pokemon types */}
                 <div className="form-group">
@@ -50,7 +55,7 @@ function PokemonForm ({pokemon}) {
                   {types.map(type => (
                     <div key={type} style={{marginBottom: '10px'}}>
                       <label>
-                        <input id={type} type="checkbox" className="filled-in"></input>
+                        <input id={type} type="checkbox" className="filled-in" value={type} checked={hasType(type)}></input>
                         <span>
                           <p className={formatType(type)}>{ type }</p>
                         </span>
