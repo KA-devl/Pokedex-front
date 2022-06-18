@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState } from 'react';
-import POKEMONS from '../models/mock-pokemon'
 import './pokemon-card.css'
 import formatDate from '../helpers/format-date';
 import formatType from '../helpers/format-type';

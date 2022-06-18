@@ -1,6 +1,7 @@
 import formatType from '../helpers/format-type';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PokemonService from '../services/pokemon-service';
 
   
 function PokemonForm ({pokemon}) {
@@ -52,9 +53,23 @@ function PokemonForm ({pokemon}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isFormValid = validateForm();
+  
 
     if(isFormValid){
-      navigate(`/pokemons/${pokemon.id}`);
+
+   //Set les nouvelles valeurs aux valeurs recentes de form
+   pokemon.name= form.name.value
+   console.log(pokemon.name)
+   pokemon.hp= form.hp.value
+   console.log(pokemon.hp)
+   pokemon.cp= form.cp.value
+   console.log(pokemon.cp)
+   pokemon.types= form.types.value
+   console.log(pokemon.types)
+  //update les valeurs via le http request, then naviguer vers la page du pokemon 
+   PokemonService.updatePokemon(pokemon).then(()=> navigate(`/pokemons/${pokemon.id}`))
+  
+      
     }
    
   }
@@ -169,7 +184,7 @@ const isTypesValid = (type)=> {
               </div>
               <div className="card-action center">
                 {/* Submit button */}
-                <button type="submit" className="btn">Valider</button>
+                <button type="submit" className="btn" >Valider</button>
               </div>
             </div>
           </div>

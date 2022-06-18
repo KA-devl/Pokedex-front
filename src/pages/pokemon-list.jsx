@@ -1,13 +1,15 @@
 import React, {useState, useEffect } from 'react';
-import POKEMONS from '../models/mock-pokemon';
 import PokemonCard from '../components/pokemon-card';
+import PokemonService from '../services/pokemon-service';
   
 function PokemonList() {
   const [pokemons, setPokemons] = useState([]);
   
 
   useEffect(() => {
-    setPokemons(POKEMONS);
+    PokemonService.getPokemons()
+    .then(pokemons => setPokemons(pokemons))
+    
   }, []);
   
 
