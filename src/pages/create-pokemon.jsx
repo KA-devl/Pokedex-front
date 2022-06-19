@@ -57,6 +57,9 @@ function CreatePokemon() {
  
  
   const handleSubmit = (e)=>{
+  e.preventDefault() // empeche le formulaire de reload
+    const isFormValid = validateForm()
+   if(isFormValid){
     form.name = form.name.value
     form.hp = form.hp.value
    form.cp =form.cp.value
@@ -64,11 +67,72 @@ function CreatePokemon() {
     form.types = form.types.value
     
     PokemonService.postPokemon(form).then(navigate('/pokemons/'))
+   }
+  }
+//VALIDATION DE FORMULAIRE 
+
+const isTypesValid = (type)=> {
+  // Cas n°1: Le pokémon a un seul type, qui correspond au type passé en paramètre.
+  // Dans ce cas on revoie false, car l'utilisateur ne doit pas pouvoir décoché ce type (sinon le pokémon aurait 0 type, ce qui est interdit)
+  if (form.types.value.length === 1 && hasType(type)) {
+    return false;
+  }
+  
+  // Cas n°2: Le pokémon a au moins 3 types.
+  // Dans ce cas il faut empêcher à l'utilisateur de cocher un nouveau type, mais pas de décocher les types existants.
+  if (form.types.value.length >= 3 && !hasType(type)) { 
+    return false; 
+  } 
+  
+  // Après avoir passé les deux tests ci-dessus, on renvoie 'true', 
+  // c'est-à-dire que l'on autorise l'utilisateur à cocher ou décocher un nouveau type.
+  return true;
+}
+
+// Validation champ de text
+
+
+const validateForm = () => {
+  let newForm= form;
+
+  // Validator name
+  if(!/^[a-zA-Zàéè ]{3,25}$/.test(form.name.value)) {
+    const errorMsg = 'Le nom du pokémon est requis (1-25).';
+    const newField = { value: form.name.value, error: errorMsg, isValid: false };
+    newForm = { ...newForm, ...{ name: newField } };
+  } else {
+    const newField = { value: form.name.value, error: '', isValid: true };
+    newForm = { ...newForm, ...{ name: newField } };
   }
 
+  // Validator hp
+  if(!/^[0-9]{1,3}$/.test(form.hp.value)) {
+    const errorMsg = 'Les points de vie du pokémon sont compris entre 0 et 999.';
+    const newField = {value: form.hp.value, error: errorMsg, isValid: false};
+    newForm = { ...newForm, ...{ hp: newField } };
+  } else {
+    const newField = { value: form.hp.value, error: '', isValid: true };
+    newForm = { ...newForm, ...{ hp: newField } };
+  }
+
+  // Validator cp
+  if(!/^[0-9]{1,2}$/.test(form.cp.value)) {
+    const errorMsg = 'Les dégâts du pokémon sont compris entre 0 et 99';
+    const newField = {value: form.cp.value, error: errorMsg, isValid: false};
+    newForm = { ...newForm, ...{ cp: newField } };
+  } else {
+    const newField = { value: form.cp.value, error: '', isValid: true };
+    newForm = { ...newForm, ...{ cp: newField } };
+  }
+
+  setForm(newForm);
+  //Si toutes les valeurs sont value donc true, le formulaire vas etre submit, sinon sa retourne false
+  return newForm.name.isValid && newForm.hp.isValid && newForm.cp.isValid;
+}
 
   return (
     <form onSubmit={e=>handleSubmit (e)} noValidate>
+    <h2 className="header center">Ajouter un pokemon</h2>
       <div className="row">
         <div className="col s12 m8 offset-m2">
           <div className="card hoverable"> 
@@ -85,19 +149,23 @@ function CreatePokemon() {
                 <div className="form-group">
                   <label htmlFor="name">Nom</label>
                   <input id="name" name="name" type="text" className="form-control" value = {form.name.value} onChange={e=> handleInputChange(e)}></input>
+                   {form.name.error &&
+                  <div className='card-panel red accent-1'>{form.name.error} </div>} 
                   
                 </div>
                 {/* Pokemon hp */}
                 <div className="form-group">
                   <label htmlFor="hp">Point de vie</label>
                   <input name ="hp" id="hp" type="number" className="form-control" value = {form.hp.value} onChange={e=> handleInputChange(e)}></input>
-                  {/* {form.hp.error &&
-                  <div className='card-panel red accent-1'>{form.hp.error} </div>} */}
+                  {form.hp.error &&
+                  <div className='card-panel red accent-1'>{form.hp.error} </div>}
                 </div>
                 {/* Pokemon cp */}
                 <div className="form-group">
                   <label htmlFor="cp">Dégâts</label>
                   <input name="cp" id="cp" type="number" className="form-control" value = {form.cp.value} onChange={e=> handleInputChange(e)}></input>
+                  {form.cp.error &&
+                  <div className='card-panel red accent-1'>{form.cp.error} </div>} 
                   
                 </div>
                 {/* Pokemon types */}
@@ -106,7 +174,7 @@ function CreatePokemon() {
                   {types.map(type => (
                     <div key={type} style={{marginBottom: '10px'}}>
                       <label>
-                        <input id={type} type="checkbox" className="filled-in"  checked={hasType(type)} onChange={e => selectType(type, e)}></input>
+                        <input id={type} type="checkbox" className="filled-in" checked={hasType(type)} disabled={!isTypesValid(type)} onChange={e => selectType(type, e)}></input>
                         <span>
                           <p className={formatType(type)}>{ type }</p>
                         </span>
