@@ -2,7 +2,6 @@ import formatType from '../helpers/format-type';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PokemonService from '../services/pokemon-service';
-import { Link } from 'react-router-dom';
 
   
 function PokemonForm ({pokemon}) {

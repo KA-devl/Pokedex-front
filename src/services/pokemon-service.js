@@ -42,10 +42,11 @@ static deletePokemon(pokemon){
 
 //POST UN NOUVEAU POKEMON
 
-static postPokemon(pokemon){
-  return fetch(`http://localhost:3001/pokemons/${pokemon.id}`, 
+static postPokemon(form){
+ 
+  return fetch(`http://localhost:3001/pokemons/`, 
   {method : 'POST', 
-  body: JSON.stringify(pokemon),
+  body: JSON.stringify(form),
   headers: { 'Content-Type' : 'application/json'}})
   .then(response => response.json())
   .then(error => this.handleError(error))
