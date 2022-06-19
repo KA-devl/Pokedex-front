@@ -40,7 +40,16 @@ static deletePokemon(pokemon){
   .catch(error => this.handleError(error))
 }
 
+//POST UN NOUVEAU POKEMON
 
+static postPokemon(pokemon){
+  return fetch(`http://localhost:3001/pokemons/${pokemon.id}`, 
+  {method : 'POST', 
+  body: JSON.stringify(pokemon),
+  headers: { 'Content-Type' : 'application/json'}})
+  .then(response => response.json())
+  .then(error => this.handleError(error))
+}
 
 //Anticiper les erreurs HTTP
 static handleError(error){
