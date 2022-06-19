@@ -5,7 +5,6 @@ import PokemonService from '../services/pokemon-service';
 function PokemonList() {
   const [pokemons, setPokemons] = useState([]);
   
-
   useEffect(() => {
     PokemonService.getPokemons()
     .then(pokemons => setPokemons(pokemons))
@@ -13,8 +12,9 @@ function PokemonList() {
   }, []);
   
 
-  
+
   return (
+    
     <div>
       <h1 className="center">Pokédex</h1>
       <div className="container"> 

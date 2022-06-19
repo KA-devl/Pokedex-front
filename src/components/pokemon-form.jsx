@@ -2,6 +2,7 @@ import formatType from '../helpers/format-type';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PokemonService from '../services/pokemon-service';
+import { Link } from 'react-router-dom';
 
   
 function PokemonForm ({pokemon}) {
@@ -133,6 +134,11 @@ const isTypesValid = (type)=> {
   return true;
 }
 
+const deletePokemon = () => {
+  PokemonService.deletePokemon(pokemon)
+  .then(navigate('/pokemons/'))
+}
+
 
 
   return (
@@ -141,9 +147,11 @@ const isTypesValid = (type)=> {
         <div className="col s12 m8 offset-m2">
           <div className="card hoverable"> 
             <div className="card-image">
+            <span className="btn btn-floating halfway-fab waves-effect waves-light" onClick={()=>deletePokemon()} > <i className='material-icons'>delete</i></span>
               <img src={pokemon.picture} alt={pokemon.name} style={{width: '250px', margin: '0 auto'}}/>
             </div>
             <div className="card-stacked">
+            
               <div className="card-content">
                 {/* Pokemon name */}
                 <div className="form-group">

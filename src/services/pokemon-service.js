@@ -29,6 +29,19 @@ static updatePokemon(pokemon){
 .catch(error => this.handleError(error))
 }
 
+//DELETE POKEMON REQUEST
+
+static deletePokemon(pokemon){
+  return fetch(`http://localhost:3001/pokemons/${pokemon.id}`,
+  { method: 'DELETE',
+    headers: {'Content-Type': 'application/json'}
+  })
+  .then(reponse => reponse.json())
+  .catch(error => this.handleError(error))
+}
+
+
+
 //Anticiper les erreurs HTTP
 static handleError(error){
   console.error(error)
