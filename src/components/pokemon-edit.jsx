@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PokemonForm from '../components/pokemon-form';
 import { useParams } from 'react-router-dom';
 import PokemonService from '../services/pokemon-service';
- 
+ import PageLoading from './page-loading';
 
   
 function PokemonEdit (){
@@ -22,7 +22,7 @@ function PokemonEdit (){
             <PokemonForm pokemon={pokemon} isEditForm={true}></PokemonForm>
         </div>
       ) : (
-        <h4 className="center">Aucun pokémon à afficher !</h4>
+        <h4 className="center"><PageLoading/></h4>
       )}
     </div>
   );
