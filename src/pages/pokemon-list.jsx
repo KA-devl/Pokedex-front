@@ -25,9 +25,10 @@ function PokemonList() {
         ))}
         
         </div>
+        <Link to ="/pokemons/create" className="btn btn-floating btn-large waves-effect waves-light red z-depth-3 " style={{position : 'fixed', bottom: '25px', right: '25px'}}> <i className='material-icons'>add</i></Link>
         
       </div>
-      <Link to ="/pokemons/create" className="btn btn-floating halfway-fab waves-effect waves-light"> <i className='material-icons'>add</i></Link>
+      
     </div> 
     
   );

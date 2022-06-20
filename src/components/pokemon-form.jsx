@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import PokemonService from '../services/pokemon-service';
 
   
-function PokemonForm ({pokemon}) {
+function PokemonForm ({pokemon, isEditForm}) {
   //Avec cela, on peut set les valeurs pour des valeurs initiale pour chaque form de pokemon
   const [form, setForm] = useState({
+    picture:{value:pokemon.picture, isValid:true},
     name: {value: pokemon.name, isValid : true},
     hp: {value: pokemon.hp, isValid : true},
     cp: {value: pokemon.cp, isValid : true},
@@ -33,22 +34,7 @@ function PokemonForm ({pokemon}) {
 
     setForm({...form, ...newField})
   }
-  const selectType = (type, e) => {
-    const checked = e.target.checked;
-    let newField;
-
-    if(checked) {
-      // Si l'utilisateur coche un type, à l'ajoute à la liste des types du pokémon.
-      const newTypes = form.types.value.concat([type]);
-      newField = { value: newTypes };
-    } else {
-      // Si l'utilisateur décoche un type, on le retire de la liste des types du pokémon.
-      const newTypes = form.types.value.filter((currentType) => currentType !== type);
-      newField = { value: newTypes };
-    }
-
-    setForm({...form, ...{ types: newField }});
-  }
+ 
 // Quand le button valider est cliquer
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -58,27 +44,50 @@ function PokemonForm ({pokemon}) {
     if(isFormValid){
 
    //Set les nouvelles valeurs aux valeurs recentes de form
+   pokemon.picture = form.picture.value
    pokemon.name= form.name.value
-   console.log(pokemon.name)
    pokemon.hp= form.hp.value
-   console.log(pokemon.hp)
    pokemon.cp= form.cp.value
-   console.log(pokemon.cp)
-   pokemon.types= form.types.value
-   console.log(pokemon.types)
-  //update les valeurs via le http request, then naviguer vers la page du pokemon 
-   PokemonService.updatePokemon(pokemon).then(()=> navigate(`/pokemons/${pokemon.id}`))
-  
-      
+  pokemon.types= form.types.value
+    
+      isEditForm ? updatePokemon () : addPokemon()
     }
    
   }
 
+  const addPokemon = () =>{
+    PokemonService.postPokemon(pokemon).then(navigate('/pokemons'))
+  }
+
+ const updatePokemon = () =>{
+  PokemonService.updatePokemon(pokemon).then(()=> navigate(`/pokemons/${pokemon.id}`))
+ }
+
 
 //Validation de formulaire
 
+//Pour s'assurer qu'on CREE un nouveau pokemon et qu'on pas entrain de le editer
+const isAddForm = () => {
+  return !isEditForm
+}
+
 const validateForm = () => {
   let newForm= form;
+
+  //Validator picture
+  if(isAddForm()){
+    const start = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/"
+    const end = ".png"
+
+    if(!form.picture.value.startsWith(start) || !form.picture.value.endsWith(end)){
+      const errorMsg = "L'url saisi n'est pas valide."
+      const newField = { value: form.picture.value, error: errorMsg, isValid: false };
+      newForm = { ...newForm, ...{ picture: newField } };
+    }else {
+      const newField = { value: form.picture.value, error: '', isValid: true };
+      newForm = { ...newForm, ...{ picture: newField } };
+    }
+  }
 
   // Validator name
   if(!/^[a-zA-Zàéè ]{3,25}$/.test(form.name.value)) {
@@ -133,6 +142,23 @@ const isTypesValid = (type)=> {
   return true;
 }
 
+const selectType = (type, e) => {
+  const checked = e.target.checked;
+  let newField;
+
+  if(checked) {
+    // Si l'utilisateur coche un type, à l'ajoute à la liste des types du pokémon.
+    const newTypes = form.types.value.concat([type]);
+    newField = { value: newTypes };
+  } else {
+    // Si l'utilisateur décoche un type, on le retire de la liste des types du pokémon.
+    const newTypes = form.types.value.filter((currentType) => currentType !== type);
+    newField = { value: newTypes };
+  }
+
+  setForm({...form, ...{ types: newField }});
+}
+
 const deletePokemon = () => {
   PokemonService.deletePokemon(pokemon)
   .then(navigate('/pokemons/'))
@@ -145,13 +171,24 @@ const deletePokemon = () => {
       <div className="row">
         <div className="col s12 m8 offset-m2">
           <div className="card hoverable"> 
-            <div className="card-image">
-            <span className="btn btn-floating halfway-fab waves-effect waves-light" onClick={()=>deletePokemon()} > <i className='material-icons'>delete</i></span>
-              <img src={pokemon.picture} alt={pokemon.name} style={{width: '250px', margin: '0 auto'}}/>
-            </div>
+
+          {isEditForm && (<div className="card-image">
+          <span className="btn btn-floating halfway-fab waves-effect waves-light" onClick={()=>deletePokemon()} > <i className='material-icons'>delete</i></span>
+            <img src={pokemon.picture} alt={pokemon.name} style={{width: '250px', margin: '0 auto'}}/>
+          </div>)}
+            
             <div className="card-stacked">
             
               <div className="card-content">
+              {/* Pokemon picture */}
+              {isAddForm() && (
+                <div className="form-group">
+                  <label htmlFor="picture">Image (NOTE :Remplacer le XXX du lien ci-dessous par un chiffre afin de génerer une photo d'un pokémon)</label>
+                  <input id="picture" name="picture" type="text" className="form-control" value={form.picture.value} onChange={e=> handleInputChange(e)}></input>
+                  {form.picture.error &&
+                  <div className='card-panel red accent-1'>{form.picture.error} </div>}
+                </div>
+              )}
                 {/* Pokemon name */}
                 <div className="form-group">
                   <label htmlFor="name">Nom</label>

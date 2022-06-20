@@ -4,7 +4,7 @@
       "id": 1,
       "name": "Bulbizarreeee",
       "hp": "251",
-      "cp": 5,
+      "cp": "6",
       "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
       "types": [
         "Plante",
@@ -133,6 +133,18 @@
         "Plante"
       ],
       "id": 13
+    },
+    {
+      "id": 1655695185684,
+      "hp": "657",
+      "cp": "35",
+      "name": "DRAZER",
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/038.png",
+      "types": [
+        "Feu",
+        "Electrik"
+  
+      ]
     }
   ]
 }
