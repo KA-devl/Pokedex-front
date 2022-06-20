@@ -5,7 +5,7 @@ name: Pokedex App CI
 
 on:
   push:
-    branches: [ "pokedex-dev" ]
+    branches: [ "pokedex-dev", "1-github-actions" ]
   pull_request:
     branches: [ "pokedex-dev" ]
 
