@@ -143,8 +143,18 @@
       "types": [
         "Feu",
         "Electrik"
-  
       ]
+    },
+    {
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/038.png",
+      "name": "Braker",
+      "hp": "500",
+      "cp": 10,
+      "types": [
+        "Vol",
+        "Fée"
+      ],
+      "id": 1655695185685
     }
   ]
 }

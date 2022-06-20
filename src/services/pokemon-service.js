@@ -52,6 +52,13 @@ static postPokemon(pokemon){
   .then(error => this.handleError(error))
 }
 
+//Chercher un pokemon specifique
+static searchPokemon(term){
+  return fetch(`http://localhost:3001/pokemons?q=${term}`)
+  .then(reponse => reponse.json())
+  .catch(error => this.handleError(error))
+}
+
 //Anticiper les erreurs HTTP
 static handleError(error){
   console.error(error)
