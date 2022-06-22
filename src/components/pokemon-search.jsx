@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Pokemon from '../models/pokemon';
 import PokemonService from '../services/pokemon-service';
  
 function PokemonSearch () {
