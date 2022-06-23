@@ -10,6 +10,13 @@ static login(username, password){
       this.isAuthenticated = isAuthenticated
       resolve (isAuthenticated)
     }, 500)
+
+     /**
+   *  return new Promise( resolve => {
+      this.isAuthenticated = isAuthenticated
+      resolve (isAuthenticated)
+  })
+   */
   })
 }
 
