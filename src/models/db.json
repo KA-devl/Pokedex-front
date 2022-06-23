@@ -2,7 +2,7 @@
   "pokemons": [
     {
       "id": 1,
-      "name": "Bulbizarreeee",
+      "name": "Bulbizarree",
       "hp": "251",
       "cp": "6",
       "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png",
@@ -147,14 +147,39 @@
     },
     {
       "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/038.png",
-      "name": "Braker",
+      "name": "Brakerr",
       "hp": "500",
       "cp": 10,
       "types": [
         "Vol",
-        "Fée"
+        "Fée",
+        "Plante"
       ],
       "id": 1655695185685
+    },
+    {
+      "id": 1655963028902,
+      "hp": 100,
+      "cp": 10,
+      "name": "tester",
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/041.png",
+      "types": [
+        "Normal",
+        "Combat"
+      ],
+      "created": "2022-06-23T05:43:48.902Z"
+    },
+    {
+      "id": 1655963811545,
+      "hp": 100,
+      "cp": 10,
+      "name": "anes",
+      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/045.png",
+      "types": [
+        "Normal",
+        "Combat"
+      ],
+      "created": "2022-06-23T05:56:51.545Z"
     }
   ]
 }

@@ -12,8 +12,7 @@ function PokemonsDetail () {
   const [pokemon, setPokemon] = useState(null);
   
   useEffect(() => {
-    PokemonService.getPokemon(id)
-    .then(pokemon => {setPokemon(pokemon)})
+    PokemonService.getPokemon(id).then(pokemon => {setPokemon(pokemon)})
   }, [id]);
     
   return (

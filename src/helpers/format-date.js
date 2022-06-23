@@ -1,5 +1,6 @@
-const formatDate = (date = new Date()) =>{
-  return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`;
+const formatDate = (date) =>{
+  
+  return `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`;
 
 }
 
